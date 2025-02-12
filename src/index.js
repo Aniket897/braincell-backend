@@ -27,20 +27,15 @@ app.get("/health", (_, resp) => {
   });
 });
 
-// simple caching
-let users = [];
-
 app.get("/users", async (req, resp) => {
   try {
     const { name, sort } = req.query;
 
     // handing  simple caching is not users then only fetch
-    if (!users.length) {
-      let response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      users = response.data;
-    }
+    let response = await axios.get(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+    let users = response.data;
 
     if (name) {
       const filteredUsersByName = users.filter((user) =>
